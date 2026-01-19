@@ -1,35 +1,22 @@
 <?php
-$profileCollection = null;
+require_once __DIR__ . '/../vendor/autoload.php';
 
-// Composer autoloader 
-$autoloadPath = __DIR__ . '/../vendor/autoload.php';
-if (file_exists($autoloadPath)) {
-    require_once $autoloadPath;
-}
+// Fetch the URI you set in Railway
+$uri = getenv('MONGO_URI');
 
-// .env லோடு 
-if (class_exists('Dotenv\\Dotenv')) {
-    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..');
-    $dotenv->safeLoad();
-}
-
-if (!class_exists('MongoDB\\Client')) {
-    $profileCollection = null;
-    return;
+// 1. Check if the variable is missing
+if (empty($uri)) {
+    die("MongoDB Error: MONGO_URI is not defined in Railway Environment Variables.");
 }
 
 try {
-    // .env-from URI and DB Name 
-    $uri = $_ENV['MONGO_URI'] ?? "mongodb://127.0.0.1:27017";
-    $dbName = $_ENV['MONGO_DB_NAME'] ?? "internship_task";
-
+    // 2. Initialize the client
     $client = new MongoDB\Client($uri);
-    $mongoDB = $client->$dbName;
-    $profileCollection = $mongoDB->profiles;
-
-    //  (Testing purposes only)
-    // echo "MongoDB Connected Successfully!";
+    
+    // 3. Force a connection test (Ping)
+    $client->selectDatabase('admin')->command(['ping' => 1]);
+    
 } catch (Exception $e) {
-    $profileCollection = null;
-    return;
+    // 4. Catch Network or Authentication errors
+    die("MongoDB Connection Failed: " . $e->getMessage());
 }
