@@ -6,7 +6,7 @@ DB_PASS=AVNS_uwQSL1oBq0Gt_ZS47Zc
 DB_NAME=defaultdb
 
 # MongoDB Details
-MONGO_URI=mongodb+srv://auth:OK69bKOBRrcIOlIv@cluster0.zvqghry.mongodb.net/?appName=Cluster0
+MONGO_URI=mongodb+srv://auth:FCDvAg5VMTtvESUp@cluster0.zvqghry.mongodb.net/?appName=Cluster0
 MONGO_DB_NAME=internship_task
 
 # Redis Details
