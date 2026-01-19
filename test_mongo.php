@@ -1,0 +1,1 @@
+<?php if (!extension_loaded('mongodb')) { die('Driver not loaded'); } try { $m = new MongoDB\Driver\Manager('mongodb://127.0.0.1:27017'); echo 'Success: MongoDB connected!'; } catch (Exception $e) { echo $e->getMessage(); } ?> 

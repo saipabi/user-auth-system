@@ -1,0 +1,9 @@
+{
+  "_id": "ObjectId('65abc12345f9a2b1cde00001')",
+  "user_id": 1,
+  "age": 25,
+  "dob": "1999-05-10",
+  "contact": "9876543210",
+  "address": "Chennai, Tamil Nadu",
+  "updated_at": "2026-01-18T10:30:00Z"
+}
