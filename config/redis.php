@@ -1,25 +1,22 @@
 <?php
-// config/redis.php
-
-// Ensure Composer autoloader is included if not already
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$redis = null;
+$host = getenv('REDIS_HOST');
+$port = getenv('REDIS_PORT');
+$pass = getenv('REDIS_PASS');
+
+$parameters = [
+    'scheme'   => 'tls', 
+    'host'     => $host,
+    'port'     => $port,
+    'password' => $pass,
+];
 
 try {
-    // Predis connection
-    // It uses 127.0.0.1 and 6379 by default
-    $redis = new Predis\Client([
-        'scheme' => 'tcp',
-        'host'   => '127.0.0.1',
-        'port'   => 6379,
-    ]);
-
-    // Test connection
-    $redis->ping();
-    
+    $redis = new Predis\Client($parameters);
+    // We remove the "echo" so it doesn't mess up your API responses
+    $redis->connect(); 
 } catch (Exception $e) {
-    // Log the error and set $redis to null so the app doesn't crash
-    error_log("Redis Connection Error: " . $e->getMessage());
-    $redis = null;
+    // Log the error instead of echoing it
+    error_log("Redis Connection Failed: " . $e->getMessage());
 }

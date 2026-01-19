@@ -1,14 +1,16 @@
-# MySQL Details
-DB_HOST=mysql-233abac6-saipabi123-f4e0.j.aivencloud.com
-DB_PORT=18809
-DB_USER=avnadmin
-DB_PASS=AVNS_A4AMpAZgTeGhqxOmkkq
-DB_NAME=defaultdb
+<?php
 
-# MongoDB Details
-MONGO_URI=mongodb+srv://auth:FCDvAg5VMTtvESUp@cluster0.zvqghry.mongodb.net/?appName=Cluster0
-MONGO_DB_NAME=internship_task
+$envPath = dirname(__DIR__) . '/.env';
 
-# Redis Details
-REDIS_HOST=127.0.0.1
-REDIS_PORT=6379
+if (!file_exists($envPath)) {
+    die('.env file missing');
+}
+
+$lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
+foreach ($lines as $line) {
+    if (str_starts_with(trim($line), '#')) continue;
+
+    [$key, $value] = explode('=', $line, 2);
+    putenv(trim($key) . '=' . trim($value));
+}
