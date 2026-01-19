@@ -2,7 +2,7 @@
 DB_HOST=mysql-233abac6-saipabi123-f4e0.j.aivencloud.com
 DB_PORT=18809
 DB_USER=avnadmin
-DB_PASS=AVNS_uwQSL1oBq0Gt_ZS47Zc
+DB_PASS=AVNS_A4AMpAZgTeGhqxOmkkq
 DB_NAME=defaultdb
 
 # MongoDB Details
