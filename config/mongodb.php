@@ -6,10 +6,10 @@ $dbName = getenv('MONGO_DB_NAME');
 
 try {
     if (!$uri) {
-        throw new Exception("MONGO_URI variable is missing in Railway!");
+        throw new Exception("MONGO_URI is missing in Railway Variables!");
     }
     $client = new MongoDB\Client($uri);
-    // This line tests if the connection is actually alive
+    // Ping the database to confirm it is alive
     $client->selectDatabase('admin')->command(['ping' => 1]);
     $database = $client->selectDatabase($dbName);
     $mongoStatus = "Connected Successfully";
