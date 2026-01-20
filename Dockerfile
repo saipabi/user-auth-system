@@ -17,16 +17,11 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-pl
     composer require --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs \
     mongodb/mongodb:^1.15.0 predis/predis:^3.3
 
-# Copy startup script
-COPY start.sh /app/start.sh
-RUN chmod +x /app/start.sh
-
 # Copy application files
 COPY . /app
 
 # Expose port (Railway injects PORT)
 EXPOSE 8080
 
-# Start server
-CMD ["sh", "/app/start.sh"]
-
+# 🚀 START SERVER (THIS IS THE KEY LINE)
+CMD ["sh", "-c", "php -S 0.0.0.0:${PORT:-8080} -t /app"]
