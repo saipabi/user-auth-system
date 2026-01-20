@@ -1,8 +1,27 @@
 FROM dunglas/frankenphp:latest
 
-RUN install-php-extensions mysqli pdo_mysql mongodb
+# Install PHP extensions
+RUN install-php-extensions mysqli pdo_mysql mongodb redis
+
+# Install Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
+
+# Copy composer files first for better caching
+COPY composer.json composer.lock* ./
+
+# Install dependencies
+RUN composer install --no-dev --optimize-autoloader --no-interaction
+
+# Copy application files
 COPY . /app
 
+# Set document root
 ENV FRANKENPHP_DOCUMENT_ROOT=/app/public
+
+# Expose port (Railway will set PORT env var)
+EXPOSE 8080
+
+# Start server
+CMD php -S 0.0.0.0:${PORT:-8080} -t public

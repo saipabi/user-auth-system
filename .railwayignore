@@ -1,0 +1,16 @@
+# Files to exclude from Railway deployment
+vendor/
+node_modules/
+.git/
+.gitignore
+.env
+.env.local
+*.log
+test.php
+test_*.php
+check_php_version.php
+DEBUG_GUIDE.md
+TROUBLESHOOTING.md
+SETUP.md
+REQUIREMENTS_REVIEW.md
+RAILWAY_DEPLOYMENT.md
