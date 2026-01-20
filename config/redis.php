@@ -1,22 +1,23 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$host = getenv('REDIS_HOST');
-$port = getenv('REDIS_PORT');
-$pass = getenv('REDIS_PASS');
+$host = $_ENV['REDISHOST'] ?? null;
+$port = $_ENV['REDISPORT'] ?? 6379;
+$pass = $_ENV['REDISPASSWORD'] ?? null;
 
-$parameters = [
-    'scheme'   => 'tls', 
-    'host'     => $host,
-    'port'     => $port,
-    'password' => $pass,
-];
+$redis = null;
 
-try {
-    $redis = new Predis\Client($parameters);
-    // We remove the "echo" so it doesn't mess up your API responses
-    $redis->connect(); 
-} catch (Exception $e) {
-    // Log the error instead of echoing it
-    error_log("Redis Connection Failed: " . $e->getMessage());
+if ($host) {
+    try {
+        $redis = new Predis\Client([
+            'scheme' => 'tcp',
+            'host' => $host,
+            'port' => $port,
+            'password' => $pass
+        ]);
+        $redis->connect();
+    } catch (Exception $e) {
+        error_log("Redis error: " . $e->getMessage());
+        $redis = null;
+    }
 }

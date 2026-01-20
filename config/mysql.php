@@ -1,18 +1,16 @@
 <?php
-require_once __DIR__ . '/env.php';
-
 $conn = mysqli_init();
-mysqli_ssl_set($conn, NULL, NULL, NULL, NULL, NULL);
 
-$success = mysqli_real_connect(
-    $conn,
-    getenv('DB_HOST'),
-    getenv('DB_USER'),
-    getenv('DB_PASS'),
-    getenv('DB_NAME'),
-    (int) getenv('DB_PORT')
-);
+$host = $_ENV['MYSQLHOST'] ?? null;
+$port = (int)($_ENV['MYSQLPORT'] ?? 3306);
+$user = $_ENV['MYSQLUSER'] ?? null;
+$pass = $_ENV['MYSQLPASSWORD'] ?? null;
+$db   = $_ENV['MYSQLDATABASE'] ?? null;
 
-if (!$success) {
-    die("Connection failed: " . mysqli_connect_error());
+if (!$host || !$user || !$db) {
+    die("MySQL environment variables missing");
+}
+
+if (!$conn->real_connect($host, $user, $pass, $db, $port)) {
+    die("MySQL connection failed: " . mysqli_connect_error());
 }
