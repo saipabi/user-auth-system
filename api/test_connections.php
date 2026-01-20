@@ -1,10 +1,13 @@
 <?php
+// 1. Include the configuration files
 require_once __DIR__ . '/../config/mysql.php';
 require_once __DIR__ . '/../config/redis.php';
 require_once __DIR__ . '/../config/mongodb.php';
 
+// 2. Set the header to show JSON format
 header('Content-Type: application/json');
 
+// 3. Output the connection status
 echo json_encode([
     "MySQL" => isset($conn) ? "Connected Successfully" : "Failed",
     "Redis" => isset($redis) ? "Connected Successfully" : "Failed",
