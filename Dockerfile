@@ -1,13 +1,22 @@
-﻿FROM php:8.2-cli
+﻿FROM php:8.2-apache
 
-RUN apt-get update && apt-get install -y \
-    unzip zip git \
-    && docker-php-ext-install mysqli pdo pdo_mysql
+# Install PHP extensions
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-WORKDIR /app
+# Enable Apache rewrite
+RUN a2enmod rewrite
 
-COPY . /app
+# Set working directory
+WORKDIR /var/www/html
 
+# Copy project files
+COPY . /var/www/html
+
+# Expose Railway port
 EXPOSE 8080
 
-CMD sh -c "php -S 0.0.0.0:${PORT:-8080} -t /app"
+# Configure Apache to use Railway PORT
+RUN sed -i 's/80/${PORT}/g' /etc/apache2/ports.conf \
+ && sed -i 's/:80/:${PORT}/g' /etc/apache2/sites-available/000-default.conf
+
+CMD ["apache2-foreground"]
