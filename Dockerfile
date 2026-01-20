@@ -6,17 +6,15 @@ RUN docker-php-ext-install mysqli pdo pdo_mysql
 # Enable Apache rewrite
 RUN a2enmod rewrite
 
-# Set working directory
+# Set Apache to listen on 8080 (Railway compatible)
+RUN sed -i 's/80/8080/g' /etc/apache2/ports.conf \
+ && sed -i 's/:80/:8080/g' /etc/apache2/sites-available/000-default.conf
+
 WORKDIR /var/www/html
 
 # Copy project files
 COPY . /var/www/html
 
-# Expose Railway port
 EXPOSE 8080
-
-# Configure Apache to use Railway PORT
-RUN sed -i 's/80/${PORT}/g' /etc/apache2/ports.conf \
- && sed -i 's/:80/:${PORT}/g' /etc/apache2/sites-available/000-default.conf
 
 CMD ["apache2-foreground"]
