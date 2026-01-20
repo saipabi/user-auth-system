@@ -11,13 +11,10 @@ WORKDIR /app
 # Copy composer files first for better caching
 COPY composer.json ./
 
-# Install dependencies (use update instead of install since no lock file exists)
-# Ignore MongoDB extension version mismatch
-RUN if [ -f composer.lock ]; then \
-      composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-mongodb; \
-    else \
-      composer update --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-mongodb --no-scripts; \
-    fi
+# Install dependencies (ignore all platform requirements to avoid version conflicts)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs || \
+    composer require --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs \
+    mongodb/mongodb:^1.15.0 predis/predis:^3.3
 
 # Copy application files
 COPY . /app
