@@ -1,1 +1,1 @@
-web: sh -c "php -S 0.0.0.0:\${PORT:-8080} -t /app/public"
+web: /app/start.sh
