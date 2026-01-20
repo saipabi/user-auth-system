@@ -1,11 +1,11 @@
 <?php
 $conn = mysqli_init();
 
-$host = $_ENV['MYSQLHOST'] ?? null;
-$port = (int)($_ENV['MYSQLPORT'] ?? 3306);
-$user = $_ENV['MYSQLUSER'] ?? null;
-$pass = $_ENV['MYSQLPASSWORD'] ?? null;
-$db   = $_ENV['MYSQLDATABASE'] ?? null;
+$host = $_ENV['DB_HOST'] ?? null;
+$port = (int)($_ENV['DB_PORT'] ?? 3306);
+$user = $_ENV['DB_USER'] ?? null;
+$pass = $_ENV['DB_PASS'] ?? null;
+$db   = $_ENV['DB_NAME'] ?? null;
 
 if (!$host || !$user || !$db) {
     die("MySQL environment variables missing");
