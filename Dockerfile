@@ -9,10 +9,15 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 
 # Copy composer files first for better caching
-COPY composer.json composer.lock* ./
+COPY composer.json ./
 
-# Install dependencies (ignore MongoDB extension version mismatch)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-mongodb
+# Install dependencies (use update instead of install since no lock file exists)
+# Ignore MongoDB extension version mismatch
+RUN if [ -f composer.lock ]; then \
+      composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-mongodb; \
+    else \
+      composer update --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-mongodb --no-scripts; \
+    fi
 
 # Copy application files
 COPY . /app
