@@ -11,9 +11,8 @@ WORKDIR /app
 # Copy composer files first for better caching
 COPY composer.json composer.lock* ./
 
-# Install dependencies (ignore platform reqs for mongodb extension version mismatch)
-RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-mongodb || \
-    composer update --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-mongodb
+# Install dependencies (ignore MongoDB extension version mismatch)
+RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-platform-req=ext-mongodb
 
 # Copy application files
 COPY . /app
