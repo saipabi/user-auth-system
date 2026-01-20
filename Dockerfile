@@ -28,4 +28,5 @@ COPY . /app
 EXPOSE 8080
 
 # Start server
-CMD ["/app/start.sh"]
+CMD ["sh", "/app/start.sh"]
+
