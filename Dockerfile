@@ -9,7 +9,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /app
 
-# Copy composer files first for better caching
+# Copy composer files first
 COPY composer.json ./
 
 # Install dependencies
@@ -17,19 +17,15 @@ RUN composer install --no-dev --optimize-autoloader --no-interaction --ignore-pl
     composer require --no-dev --optimize-autoloader --no-interaction --ignore-platform-reqs \
     mongodb/mongodb:^1.15.0 predis/predis:^3.3
 
-# Copy startup script and make it executable
+# Copy startup script
 COPY start.sh /app/start.sh
 RUN chmod +x /app/start.sh
 
 # Copy application files
 COPY . /app
 
-# Set document root
-ENV FRANKENPHP_DOCUMENT_ROOT=/app/public
-
-# Expose port (Railway sets PORT dynamically)
+# Expose port (Railway injects PORT)
 EXPOSE 8080
 
-# Use startup script to properly handle PORT variable
-CMD [\
-/app/start.sh\]
+# Start server
+CMD ["/app/start.sh"]
