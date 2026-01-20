@@ -1,3 +1,9 @@
 #!/bin/sh
-# Start PHP server with Railway's PORT variable
-exec php -S 0.0.0.0:${PORT:-8080} -t /app
+set -e
+
+echo "PORT from Railway is: $PORT"
+
+# Force numeric port fallback
+PORT_TO_USE=${PORT:-8080}
+
+exec php -S 0.0.0.0:${PORT_TO_USE} -t /app
