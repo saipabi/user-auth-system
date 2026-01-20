@@ -2,7 +2,11 @@
   "name": "user-auth-system/internship-task",
   "description": "User Authentication System with MySQL, MongoDB, and Redis",
   "require": {
+    "php": "^8.0",
     "mongodb/mongodb": "^1.15.0",
     "predis/predis": "^3.3"
+  },
+  "config": {
+    "platform-check": false
   }
 }
