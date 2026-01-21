@@ -1,7 +1,8 @@
 ﻿FROM php:8.2-apache
 
-# Disable all MPMs first (safe cleanup)
-RUN a2dismod mpm_event mpm_worker || true \
+# HARD RESET Apache MPMs (guaranteed fix)
+RUN rm -f /etc/apache2/mods-enabled/mpm_*.load \
+ && rm -f /etc/apache2/mods-enabled/mpm_*.conf \
  && a2enmod mpm_prefork
 
 # Install PHP extensions
@@ -20,6 +21,8 @@ WORKDIR /var/www/html
 # Copy project files
 COPY . /var/www/html
 
+# Expose internal port
 EXPOSE 8080
 
+# Start Apache (MANDATORY)
 CMD ["apache2-foreground"]
