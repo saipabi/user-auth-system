@@ -16,5 +16,5 @@ COPY . /var/www/html
 # Expose internal port
 EXPOSE 8080
 
-# Start Apache ONLY at runtime (no restarts during build)
+# Start Apache ONLY at runtime
 CMD ["apache2-foreground"]
