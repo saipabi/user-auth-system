@@ -1,16 +1,5 @@
-# Railway deployment configuration
 [phases.setup]
-nixPkgs = ["php80", "composer"]
+nixPkgs = ["php82", "php82Extensions.mongodb"]
 
 [phases.install]
-cmds = [
-  "composer install --no-dev --optimize-autoloader"
-]
-
-[phases.build]
-cmds = [
-  "echo 'Build complete'"
-]
-
-[start]
-cmd = "php -S 0.0.0.0:$PORT -t public"
+cmds = ["composer install --optimize-autoloader --no-interaction"]
