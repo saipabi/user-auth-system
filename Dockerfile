@@ -1,4 +1,4 @@
-﻿FROM php:8.2-apache
+FROM php:8.2-apache
 
 # Install PHP extensions
 RUN docker-php-ext-install mysqli pdo pdo_mysql
@@ -16,5 +16,5 @@ COPY . /var/www/html
 # Expose internal port
 EXPOSE 8080
 
-# Start Apache ONLY at runtime
+# Start Apache
 CMD ["apache2-foreground"]
