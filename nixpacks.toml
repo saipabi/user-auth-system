@@ -1,5 +1,5 @@
 [phases.setup]
-nixPkgs = ["php82", "php82Extensions.mongodb"]
+nixPkgs = ["php82", "php82Extensions.mongodb", "composer"]
 
 [phases.install]
 cmds = ["composer install --optimize-autoloader --no-interaction"]
