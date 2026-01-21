@@ -1,14 +1,9 @@
 ﻿FROM php:8.2-apache
 
-# HARD RESET Apache MPMs (guaranteed fix)
-RUN rm -f /etc/apache2/mods-enabled/mpm_*.load \
- && rm -f /etc/apache2/mods-enabled/mpm_*.conf \
- && a2enmod mpm_prefork
-
 # Install PHP extensions
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Enable Apache rewrite
+# Enable Apache rewrite (safe)
 RUN a2enmod rewrite
 
 # Configure Apache to listen on 8080 (Railway compatible)
@@ -24,5 +19,5 @@ COPY . /var/www/html
 # Expose internal port
 EXPOSE 8080
 
-# Start Apache (MANDATORY)
+# Start Apache
 CMD ["apache2-foreground"]
