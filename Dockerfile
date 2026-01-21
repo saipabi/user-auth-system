@@ -16,5 +16,5 @@ COPY . /var/www/html
 # Expose internal port
 EXPOSE 8080
 
-# Start Apache
+# Start Apache (ONLY ONE CMD)
 CMD ["apache2-foreground"]
