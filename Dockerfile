@@ -1,5 +1,9 @@
 ﻿FROM php:8.2-apache
 
+# Disable all MPMs first (safe cleanup)
+RUN a2dismod mpm_event mpm_worker || true \
+ && a2enmod mpm_prefork
+
 # Install PHP extensions
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
@@ -16,8 +20,6 @@ WORKDIR /var/www/html
 # Copy project files
 COPY . /var/www/html
 
-# Expose internal port
 EXPOSE 8080
 
-# Start Apache
 CMD ["apache2-foreground"]
