@@ -2,4 +2,4 @@
 nixPkgs = ["php82", "php82Extensions.mongodb", "composer"]
 
 [phases.install]
-cmds = ["composer install --optimize-autoloader --no-interaction"]
+cmds = ["composer install --optimize-autoloader --no-interaction --ignore-platform-req=ext-mongodb"]
